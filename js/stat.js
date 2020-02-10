@@ -62,7 +62,7 @@ window.renderStatistics = function (ctx, players, times) {
     ctx.fillText(players[i], (CLOUD_X - barWidth + (TEXT_WIDTH + barWidth) * (i + 1)), CLOUD_HEIGHT, barWidth);
     ctx.fillText(Math.round(times[i]) + '', (CLOUD_X - barWidth + (TEXT_WIDTH + barWidth) * (i + 1)), CLOUD_HEIGHT - playerHeight - GAP - FONT_GAP - FONT_GAP, barWidth);
 
-    ctx.fillStyle = players[i]==='Вы' ? COLOR_RED : getRandomBlueColor();
+    ctx.fillStyle = players[i] === 'Вы' ? COLOR_RED : getRandomBlueColor();
 
     ctx.fillRect((CLOUD_X - barWidth + (TEXT_WIDTH + barWidth) * (i + 1)), CLOUD_HEIGHT - FONT_GAP - GAP, barWidth, -playerHeight);
   }
