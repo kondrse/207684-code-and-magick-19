@@ -1,103 +1,63 @@
+
 'use strict';
 
-// Получение максимального значения из массива
+// Определение локальных констант
+var CLOUD_X = 100;
+var CLOUD_Y = 10;
+var GAP = 10;
+var CLOUD_WIDTH = 420;
+var CLOUD_HEIGHT = 270;
+var FONT_GAP = 15
+var TEXT_WIDTH = 50;
+var BAR_HEIGHT = 150;
+var SUCCESS_TEXT_LINES = ['Ура вы победили!', 'Список результатов:'];
+var barWidth = TEXT_WIDTH - GAP;
+
+var renderCloud = function (ctx, x, y, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+};
+
 var getMaxElement = function (array) {
-  return Math.max.apply(null, array);
+  var maxElement = array[0];
+
+  for (var i = 0; i < array.length; i++) {
+    if (array[i] > maxElement) {
+      maxElement = array[i];
+    }
+  }
+
+  return maxElement;
 };
 
-// Получение случайного числа
-var getRandomNumber = function (number) {
-  return Math.cell(Math.random() * number);
+window.renderStatistics = function (ctx, players, times) {
+  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
+
+  ctx.fillStyle = '#000';
+  ctx.font = '16px PT Mono';
+
+  var maxTime = getMaxElement(times);
+
+  for (var j = 0; j < SUCCESS_TEXT_LINES.length; j++) {
+    ctx.fillText(SUCCESS_TEXT_LINES[j], CLOUD_X + TEXT_WIDTH, CLOUD_Y + (j + 1) * (GAP + FONT_GAP), TEXT_WIDTH + (TEXT_WIDTH * (j + 1)));
+  }
+
+  for (var i=0; i < players.length; i++) {
+    ctx.fillStyle = '#000';
+
+    var playerHeight = (BAR_HEIGHT * times[i]) / maxTime;
+
+    ctx.fillText(players[i], (CLOUD_X - barWidth + (TEXT_WIDTH + barWidth) * (i + 1)), CLOUD_HEIGHT, barWidth);
+    ctx.fillText(Math.round(times[i]) + '', (CLOUD_X - barWidth + (TEXT_WIDTH + barWidth) * (i + 1)), CLOUD_HEIGHT - playerHeight - GAP - FONT_GAP - FONT_GAP, barWidth);
+
+    if (players[i] === 'Вы') {
+      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+    } else {
+      ctx.fillStyle = 'blue';
+    }
+
+    ctx.fillRect((CLOUD_X - barWidth + (TEXT_WIDTH + barWidth) * (i + 1)), CLOUD_HEIGHT - FONT_GAP - GAP, barWidth, -playerHeight);
+  }
 };
 
-// Отрисовка облака статистики с параметрами
-window.renderStatistics = function (ctx, names, times) {
-  // Определение локальных констант
-  var Cloud_X = 140;
-  var Cloud_Y = 10;
-  var Cloud_Gap = 10;
-  var Bar_Width = 40;
-
-  // Получение синего цвета со случайным значением параметра насыщенности
-  var getBlueColorWithRandomSaturation = function () {
-    return 'hsl(240,' + getRandomNumber(100) + '%,' + '50%)';
-  };
-
-  // Отрисовка облака
-  var renderCloud = function (x, y, color) {
-    var Cloud_Width = 420;
-    var Cloud_Height = 270;
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, Cloud_Width, Cloud_Height);
-  };
-
-  // Отрисовка облака с тенью
-  var renderCloudWithParametrs = function () {
-    var Cloud_Color = '#ffffff';
-    var Cloud_Shadow_Color = 'rgba(0, 0, 0, 0.7)';
-    renderCloud(Cloud_X + Cloud_Gap, Cloud_Y + Cloud_Gap, Cloud_Shadow_Color);
-    renderCloud(Cloud_X, Cloud_Y, Cloud_Color);
-  };
-
-  // Отрисовка текста поздравления в цикле
-  var renderCongratulation = function (strings, x, y) {
-    var Text_Font = '16px PT Mono';
-    var Text_Color = '#000000';
-    var Text_Height = 20;
-    x = y || Cloud_X + Cloud_Gap;
-    x = y || Cloud_Y + Text_Height;
-    ctx.font = Text_Font;
-    ctx.fillStyle = Text_Color;
-    strings.forEach(function (string, i) {
-      ctx.fillText(string, x, y + (Text_Height * i));
-    });
-
-    // Вызов отрисовки текста поздравления с заданными параметрами
-  var renderCongratulationWithParameters = function () {
-    var Text_Strings = ['Ура вы победили!', 'Список результатов:'];
-    renderCongratulation(Text_Strings);
-  };
-
-  // Отрисовка колонки гистограмы
-  var renderBarColumn = function (barLeftPosition, barBottomPosition, columnHeight, color) {
-    ctx.fillStyle = color;
-    ctx.fillRect(barLeftPosition, barBottomPosition - columnHeight, Bar_Width, columnHeight);
-  };
-
-  // Отрисовка имени и время игрока, изменение цвета колонки в зависимости от условия, вызов отрисовки колонки
-  var renderBarText = function (barHeight, barLeftPosition, name, time) {
-    var Bar_Bottom = 250;
-    var Player_Bar_Color = 'rgba(255, 0, 0, 1)';
-    var playerTimePositionY = Bar_Bottom - barHeight - 10;
-    var playerNamePositionY = Bar_Bottom + 20;
-    var color = name === 'Вы' ? Player_Bar_Color : getBlueColorWithRandomSaturation();
-    time = Math.round(time);
-    renderCongratulation([time], barLeftPosition, playerTimePositionY);
-    renderCongratulation([name], barLeftPosition, playerNamePositionY);
-    renderBarColumn(barLeftPosition, Bar_Bottom, barHeight, color);
-  };
-
-  // Отрисовка гистограмы, вызов отрисовки имени и время игрока
-  var renderBarFull = function () {
-    var Bar_Height = 150;
-    var Bar_Gap = 50;
-    var Bar_X = Cloud_X + Bar_Gap;
-    var maxTimeValue = getMaxElement(times);
-    names.forEach(function (name, i) {
-      var time = times[i];
-      var currentBarHeight = time / maxTimeValue * Bar_Height;
-      var currentBarPositionX = Bar_X + ((Bar_Width + Bar_Gap) * i);
-      renderBarText(currentBarHeight, currentBarPositionX, name, time);
-    });
-  };
-
-  // Объединение вызовов функциий для отрисовки гистограмы
-  var init = function () {
-    renderCloudWithParameters();
-    renderCongratulationWithParameters();
-    renderBarFull();
-  };
-
-  // Инициализация вызова функций
-  init();
-};

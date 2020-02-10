@@ -183,24 +183,24 @@
 <script type="text/javascript">
   'use strict'
 
-  var fireballSize = 22; // Задаю размер фаербола волшебника
-  var wizardSpeed = 3; // Задаю скорость перемещения волшебника
-  var wizardWidth = 70; // Задаю ширину волшебника
+  var fireballSize = 22;
+  var wizardSpeed = 3;
+  var wizardWidth = 70;
 
   var getFireballSpeed = function(left) {
-        return left ? 5 : 2; // Возвращаю значение при определенном условии параметра left
+        return left ? 5 : 2;
     };
 
     var getWizardHeight = function() {
-        return wizardWidth*1.337; // Возвращаю расчитанное значение высоты волшебника
+        return wizardWidth*1.337;
     };
 
     var getWizardX = function(width) {
-        return Math.round(width-wizardWidth)/2; // Возвращаю значение точки волшебника по ширине
+        return Math.round(width-wizardWidth)/2;
     };
 
     var getWizardY = function(height) {
-        return Math.round(height/3 -getWizardHeight()/2); // Возвращаю значение точки волшебника по высоте
+        return Math.round(height/3 -getWizardHeight()/2);
     };
 </script>
 <script src="js/stat.js"></script>
