@@ -36,7 +36,7 @@ var getRandomColor = function (min, max) {
   var randomColor = min + Math.random() * (max + 1 - min);
   randomColor = Math.floor(randomColor);
   return randomColor;
-}
+};
 
 window.renderStatistics = function (ctx, players, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
@@ -62,8 +62,8 @@ window.renderStatistics = function (ctx, players, times) {
     if (players[i] === 'Вы') {
       ctx.fillStyle = COLOR_RED;
     } else {
-        ctx.fillStyle = 'hsl(240, 100%,' + getRandomColor(2, 100) + '%)';
-      }
+      ctx.fillStyle = 'hsl(240, 100%,' + getRandomColor(2, 100) + '%)';
+    }
     ctx.fillRect((CLOUD_X - barWidth + (TEXT_WIDTH + barWidth) * (i + 1)), CLOUD_HEIGHT - FONT_GAP - GAP, barWidth, -playerHeight);
   }
 };
