@@ -34,8 +34,11 @@ var getMaxElement = function (array) {
 
 var getRandomColor = function (min, max) {
   var randomColor = min + Math.random() * (max + 1 - min);
-  randomColor = Math.floor(randomColor);
-  return randomColor;
+  return Math.floor(randomColor);
+};
+
+var getRandomBlueColor = function () {
+  return 'hsl(240,' + getRandomColor(2, 100) + '%, 50%)';
 };
 
 window.renderStatistics = function (ctx, players, times) {
@@ -59,11 +62,8 @@ window.renderStatistics = function (ctx, players, times) {
     ctx.fillText(players[i], (CLOUD_X - barWidth + (TEXT_WIDTH + barWidth) * (i + 1)), CLOUD_HEIGHT, barWidth);
     ctx.fillText(Math.round(times[i]) + '', (CLOUD_X - barWidth + (TEXT_WIDTH + barWidth) * (i + 1)), CLOUD_HEIGHT - playerHeight - GAP - FONT_GAP - FONT_GAP, barWidth);
 
-    if (players[i] === 'Вы') {
-      ctx.fillStyle = COLOR_RED;
-    } else {
-      ctx.fillStyle = 'hsl(240, 100%,' + getRandomColor(2, 100) + '%)';
-    }
+    ctx.fillStyle = players[i]==='Вы' ? COLOR_RED : getRandomBlueColor();
+
     ctx.fillRect((CLOUD_X - barWidth + (TEXT_WIDTH + barWidth) * (i + 1)), CLOUD_HEIGHT - FONT_GAP - GAP, barWidth, -playerHeight);
   }
 };
