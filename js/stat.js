@@ -7,7 +7,7 @@ var CLOUD_Y = 10;
 var GAP = 10;
 var CLOUD_WIDTH = 420;
 var CLOUD_HEIGHT = 270;
-var FONT_GAP = 15
+var FONT_GAP = 15;
 var TEXT_WIDTH = 50;
 var BAR_HEIGHT = 150;
 var SUCCESS_TEXT_LINES = ['Ура вы победили!', 'Список результатов:'];
@@ -43,7 +43,7 @@ window.renderStatistics = function (ctx, players, times) {
     ctx.fillText(SUCCESS_TEXT_LINES[j], CLOUD_X + TEXT_WIDTH, CLOUD_Y + (j + 1) * (GAP + FONT_GAP), TEXT_WIDTH + (TEXT_WIDTH * (j + 1)));
   }
 
-  for (var i=0; i < players.length; i++) {
+  for (var i = 0; i < players.length; i++) {
     ctx.fillStyle = '#000';
 
     var playerHeight = (BAR_HEIGHT * times[i]) / maxTime;
