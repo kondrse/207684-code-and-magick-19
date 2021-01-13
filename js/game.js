@@ -1,4 +1,5 @@
 'use strict';
+var Dot
 
 window.GameConstants = {
   Fireball: {
